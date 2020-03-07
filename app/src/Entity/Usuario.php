@@ -5,9 +5,13 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UsuarioRepository")
+ * @ExclusionPolicy("all")
  */
 class Usuario implements UserInterface
 {
@@ -20,21 +24,25 @@ class Usuario implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Expose
      */
     private $nombre;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Expose
      */
     private $apellido;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Expose
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Expose
      */
     private $googleid;
 
@@ -121,6 +129,20 @@ class Usuario implements UserInterface
         }
 
         return $roles;
+    }
+
+    /**
+     * @VirtualProperty(name="role") 
+     * @Expose
+     */
+    public function getRole()
+    {
+        if(count($this->roles) > 0 ){
+            return $this->roles[0]->getName();
+        } else {
+            return null;
+        }
+        
     }
 
     public function getPassword()
