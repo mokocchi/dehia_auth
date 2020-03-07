@@ -23,5 +23,12 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    OAuth2\OAuth2: '@fos_oauth_server.server'
+
+    App\Security\OAuthEntryPoint: '@fos_oauth_server.security.entry_point' 
+
+    api_exception_subscriber:
+        class: App\EventListener\ApiExceptionSubscriber
+        arguments: []
+        tags:
+            - { name: kernel.event_subscriber }
