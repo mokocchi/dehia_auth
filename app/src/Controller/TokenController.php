@@ -47,7 +47,7 @@ class TokenController extends BaseTokenController
     $data = json_decode((string) $response->getBody());
 
     $usuarioDb = $this->em->getRepository(Usuario::class)->findOneBy(["email" => $data->email]);
-    if(!is_null($usuarioDb)){
+    if (!is_null($usuarioDb)) {
       throw new ApiProblemException(
         new ApiProblem(Response::HTTP_BAD_REQUEST, "Ya existe un usuario con este email", "Ya existe un usuario con este email")
       );
@@ -74,6 +74,60 @@ class TokenController extends BaseTokenController
    * Crea un token a cambio de credenciales o un id_token de google válido
    * @Rest\Post(name="get_token")
    * 
+   * @SWG\Response(
+   *     response=400,
+   *     description="Hubo un problema con la petición"
+   * )
+   *
+   * @SWG\Parameter(
+   *     name="X-AUTH-TOKEN",
+   *     in="header",
+   *     type="string",
+   *     description="Indica un flujo de id_token",
+   * )
+   *
+   * @SWG\Parameter(
+   *     name="X-AUTH-CREDENTIALS",
+   *     in="header",
+   *     type="string",
+   *     description="Indica un flujo de client_credentials",
+   * )
+   *
+   * @SWG\Parameter(
+   *     name="token",
+   *     in="body",
+   *     type="string",
+   *     description="El id_token de google del cliente",
+   *     schema={}
+   * )
+   *
+   * @SWG\Parameter(
+   *     name="client_id",
+   *     in="formData",
+   *     type="string",
+   *     description="El client id de OAuth"
+   * )
+   * 
+   * @SWG\Parameter(
+   *     name="client_secret",
+   *     in="formData",
+   *     type="string",
+   *     description="El client secret de OAuth"
+   * )
+   * 
+   * @SWG\Response(
+   *     response="200",
+   *     description="Operación exitosa",
+   *     @SWG\Schema(
+   *        type="object",
+   *        @SWG\Property(property="access_token", type="string", description="Token de acceso", example="MmI4ODQwNTg5ZjVkYWNmMmI3MDZlM2E3YWZkNjJlMjgyY2UzMzgxN2IxMjdkMGIzNDI1Y2NjNThiZThmYmEzZA"),
+   *        @SWG\Property(property="expires_in", type="integer", description="Segundos hasta el vencimiento del token", example=3600),
+   *        @SWG\Property(property="token_type", type="string", description="Tipo de token", example="bearer"),
+   *        @SWG\Property(property="scope", type="string", description="Alcance del token", example="api_client")
+   *    )
+   * )
+   *
+   * @SWG\Tag(name="Auth")
    */
   public function tokenAction(Request $request)
   {
