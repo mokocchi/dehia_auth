@@ -168,6 +168,12 @@ class TokenController extends BaseTokenController
 
     $data = json_decode($request->getContent(), true);
 
+    if(is_null($data)) {
+      throw new ApiProblemException(
+        new ApiProblem(Response::HTTP_BAD_REQUEST, "JSON inválido", "Hubo un problema con el request")
+      );
+    }
+
     if (!array_key_exists('token', $data)) {
       throw new ApiProblemException(
         new ApiProblem(Response::HTTP_BAD_REQUEST, "No se encontró el id_token de usuario", "Ocurrió un error en la autenticación")
