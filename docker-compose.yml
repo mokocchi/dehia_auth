@@ -1,25 +1,41 @@
 version: '3.7'
 services:
-  mysql:
+  auth.mysql:
+    container_name: auth.mysql
     image: mysql:8.0
     restart: on-failure
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+    networks: 
+      - dehia
 
-  php:
+  auth.php:
+    container_name: auth.php
     build:
       context: .
       dockerfile: docker/php/Dockerfile
     restart: on-failure
     user: ${LOCAL_USER}
+    networks: 
+      - dehia
 
-  nginx:
+  auth.nginx:
+    container_name: auth.nginx
     image: nginx:1.15.3-alpine
     restart: on-failure
     depends_on:
-      - php
+      - auth.php
+    networks: 
+      - dehia
 
-  adminer:
+  auth.adminer:
+    container_name: auth.adminer
     image: adminer
     restart: on-failure
+    networks: 
+      - dehia
+
+networks:
+  dehia:
+    external: true
