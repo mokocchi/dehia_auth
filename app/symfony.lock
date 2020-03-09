@@ -369,6 +369,9 @@
     "symfony/inflector": {
         "version": "v4.4.5"
     },
+    "symfony/intl": {
+        "version": "v4.4.5"
+    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {
@@ -379,6 +382,9 @@
         }
     },
     "symfony/mime": {
+        "version": "v4.4.5"
+    },
+    "symfony/options-resolver": {
         "version": "v4.4.5"
     },
     "symfony/orm-pack": {
