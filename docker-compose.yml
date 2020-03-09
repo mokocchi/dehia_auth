@@ -4,11 +4,17 @@ services:
     container_name: auth.mysql
     image: mysql:8.0
     restart: on-failure
+    expose: 
+      - 3306
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
-    networks: 
-      - dehia
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      backend:
+        aliases:
+          - auth.mysql
 
   auth.php:
     container_name: auth.php
@@ -17,8 +23,12 @@ services:
       dockerfile: docker/php/Dockerfile
     restart: on-failure
     user: ${LOCAL_USER}
+    expose: 
+      - 9000
     networks: 
-      - dehia
+      backend:
+        aliases:
+          - auth.php
 
   auth.nginx:
     container_name: auth.nginx
@@ -26,16 +36,17 @@ services:
     restart: on-failure
     depends_on:
       - auth.php
-    networks: 
+    networks:
       - dehia
+      - backend
 
   auth.adminer:
     container_name: auth.adminer
     image: adminer
     restart: on-failure
-    networks: 
-      - dehia
 
 networks:
   dehia:
     external: true
+  backend:
+    external: false
