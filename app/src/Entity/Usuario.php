@@ -121,6 +121,10 @@ class Usuario implements UserInterface
         return $this;
     }
 
+    /**
+     * @VirtualProperty(name="roles") 
+     * @Expose
+     */
     public function getRoles()
     {
         $roles = ['ROLE_USER'];
@@ -129,20 +133,6 @@ class Usuario implements UserInterface
         }
 
         return $roles;
-    }
-
-    /**
-     * @VirtualProperty(name="role") 
-     * @Expose
-     */
-    public function getRole()
-    {
-        if(count($this->roles) > 0 ){
-            return $this->roles[0]->getName();
-        } else {
-            return null;
-        }
-        
     }
 
     public function getPassword()
