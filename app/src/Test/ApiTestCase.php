@@ -125,7 +125,7 @@ class ApiTestCase extends KernelTestCase
         self::bootKernel();
         self::$client = new Client(
             [
-                'base_uri' => 'http://nginx:80/'
+                'base_uri' => 'http://auth.nginx:80/'
             ]
         );
         self::$em = self::getService("doctrine")->getManager();
