@@ -53,13 +53,23 @@ class JWTTokenAuthenticator extends AbstractGuardAuthenticator
         try {
             $data = $this->jwtEncoder->decode($credentials);
         } catch (JWTDecodeFailureException $e) {
+            $reason = $e->getReason();
+            switch ($reason) {
+                case JWTDecodeFailureException::EXPIRED_TOKEN:
+                    $message = "El JWT expiró";
+                    break;
+                case JWTDecodeFailureException::INVALID_TOKEN:
+                    $message = "El JWT no es válido";
+                    break;
+                case JWTDecodeFailureException::UNVERIFIED_TOKEN:
+                    $message = "El JWT no pudo ser verificado";
+                    break;
+                default:
+                    # code...
+                    break;
+            }
             throw new ApiProblemException(
-                new ApiProblem(Response::HTTP_BAD_REQUEST, "El id_token no es un JWT válido", "Ocurrió un error en la autenticación")
-            );
-        }
-        if ($data === false) {
-            throw new ApiProblemException(
-                new ApiProblem(Response::HTTP_BAD_REQUEST, "El id_token no es un JWT válido", "Ocurrió un error en la autenticación")
+                new ApiProblem(Response::HTTP_BAD_REQUEST, $message, "Ocurrió un error en la autenticación")
             );
         }
 
