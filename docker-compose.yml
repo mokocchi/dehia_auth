@@ -23,6 +23,8 @@ services:
       dockerfile: docker/php/Dockerfile
     restart: on-failure
     user: ${LOCAL_USER}
+    depends_on: 
+      - auth.mysql
     expose: 
       - 9000
     networks: 
@@ -45,7 +47,7 @@ services:
 
   auth.adminer:
     container_name: auth.adminer
-    image: adminer
+    image: adminer:4.8.0
     restart: on-failure
     networks: 
       - backend

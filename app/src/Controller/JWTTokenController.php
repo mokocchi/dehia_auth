@@ -48,7 +48,7 @@ class JWTTokenController extends AbstractFOSRestController
         $user->setNombre($data->given_name);
         $user->setApellido($data->family_name);
         $user->setGoogleid($userid);
-        $role = $this->em->getRepository(Role::class)->findOneBy(["name" => "ROLE_AUTOR"]);
+        $role = $em->getRepository(Role::class)->findOneBy(["name" => "ROLE_AUTOR"]);
         $user->addRole($role);
 
         $em->persist($user);
