@@ -17,18 +17,21 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Psr\Log\LoggerInterface;
 
 class JWTTokenAuthenticator extends AbstractGuardAuthenticator
 {
     private $jwtEncoder;
     private $em;
     private $apiProblemResponseFactory;
+    private $logger;
 
-    public function __construct(JWTEncoderInterface $jwtEncoder, EntityManagerInterface $em,  ApiProblemResponseFactory $apiProblemResponseFactory)
+    public function __construct(JWTEncoderInterface $jwtEncoder, EntityManagerInterface $em,  ApiProblemResponseFactory $apiProblemResponseFactory, LoggerInterface $logger)
     {
         $this->jwtEncoder = $jwtEncoder;
         $this->em = $em;
         $this->apiProblemResponseFactory = $apiProblemResponseFactory;
+        $this->logger = $logger;
     }
 
     public function supports(Request $request)

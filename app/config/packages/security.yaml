@@ -11,7 +11,7 @@ security:
 
     firewalls:
         validate_jwt_token:
-            pattern: ^/api/v1.0/users/me
+            pattern: ^/api/v1.0/me
             stateless: true
             anonymous: true
             guard:
