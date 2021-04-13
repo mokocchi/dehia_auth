@@ -29,7 +29,7 @@ You can install the service either in containerized version using Docker or loca
  ```
  4. Run the container - Only if needed: a) Expose the port you set in the `.env` file (if the gateway or the results service aren't run with Docker) b) Use a Docker network (if the gateway or the results service are run with docker). If one is run with Docker and the not the other, you will need both.
  ```
- docker run -e PORT=<container-port> --name <container-name> [-p <host-port>:<container-port>] [--network <poc-network>] <image-tag>
+ docker run -e PORT=<container-port> --name <container-name> [-p <host-port>:<container-port>] [--network <dehia-network>] <image-tag>
  ```
  5. Go to `http://localhost:<host-port>`. You should see a "Collect Index" message.
  6. Now you can add the URL to the results service and the gateway.
@@ -45,7 +45,6 @@ Docker variablas go in the `.env` file. PHP variables go in the `app/.env.local`
 - **ADMINER_PORT**: port to be exposed for adminer user (DB client).
 - **LOCAL_USER**: user in the docker system. The same id of the host user is preferred (because of the volume sharing the files)
 ## PHP variables
-- **GOOGLE_API_KEY**: key obtained from the Google API Console.
 - **GOOGLE_CLIENT_ID**: client for the DEHIA application in the Google API Console.
 - **GOOGLE_CLIENT_SECRET**; secret for the DEHIA application in the GOOGLE API Console.
 - **DATABASE_URL**: template for the MySQL URL. The placeholders must be filled with the information in the docker `.env` file.
