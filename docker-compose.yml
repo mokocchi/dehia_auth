@@ -4,8 +4,6 @@ services:
     container_name: auth.mysql
     image: mysql:8.0
     restart: on-failure
-    expose: 
-      - 3306
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -22,6 +20,10 @@ services:
       context: .
       dockerfile: docker/php/Dockerfile
     restart: on-failure
+    environment: 
+      WAIT_HOSTS: auth.mysql:3306
+      WAIT_SLEEP_INTERVAL: 5
+      WAIT_BEFORE_HOSTS: 5
     user: ${LOCAL_USER}
     depends_on: 
       - auth.mysql
@@ -34,7 +36,7 @@ services:
 
   auth.nginx:
     container_name: auth.nginx
-    image: nginx:1.15.3-alpine
+    image: nginx:1.17-alpine
     restart: on-failure
     depends_on:
       - auth.php
@@ -47,6 +49,8 @@ services:
 
   auth.adminer:
     container_name: auth.adminer
+    depends_on: 
+      - auth.mysql
     image: adminer:4.8.0
     restart: on-failure
     networks: 

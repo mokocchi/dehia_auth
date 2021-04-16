@@ -18,21 +18,18 @@ DEHIA is a platform for Defining and Executing Human Intervention Activities. It
 There is also an API that manages the activities lifecycle, collects the data from the mobile app and returns the results. It also manages the security of the application. The API includes a Gateway and four services: Define, Auth, Collect and Results.
 
 ## Installation
-You can install the service either in containerized version using Docker or locally (on Linux) using PHP7.4 and Apache or NGINX. The database can be external o
+You can install the service either in containerized version using Docker Compose or locally (on Linux) using PHP7.4 and Apache or NGINX. The database can be the one included in the docker-compose file or an external one.
 ### Docker (recommended)
  1. Create an `app/.env.local` file based in `app/.env` (See [Environment Variables](#Environment-Variables))
- 2. If the results service or the gateway are also run with docker, take note of the docker network.
- 3. Build the image: 
-
+ 2. Start the mysql container to initialize it. This can take up to 5 minutes (only needed once).
  ```
- docker image build -t <image-tag> .
+ docker-compose up auth.mysql
  ```
- 4. Run the container - Only if needed: a) Expose the port you set in the `.env` file (if the gateway or the results service aren't run with Docker) b) Use a Docker network (if the gateway or the results service are run with docker). If one is run with Docker and the not the other, you will need both.
+ 3. In other terminal, start the rest of the containers.
  ```
- docker run -e PORT=<container-port> --name <container-name> [-p <host-port>:<container-port>] [--network <dehia-network>] <image-tag>
+ docker-compose up
  ```
- 5. Go to `http://localhost:<host-port>`. You should see a "Collect Index" message.
- 6. Now you can add the URL to the results service and the gateway.
+ 4. Now you can add the URL to the others services and the gateway.
 
 ## Run locally (Linux)
 # Environment Variables
@@ -43,7 +40,7 @@ Docker variablas go in the `.env` file. PHP variables go in the `app/.env.local`
 - **MYSQL_USER**: database user to be created for the application. It must match the URL in `app/.env.local`
 - **MYSQL_PASSWORD**: password for the aforementioned database user. It must match the URL in `app/.env.local`
 - **ADMINER_PORT**: port to be exposed for adminer user (DB client).
-- **LOCAL_USER**: user in the docker system. The same id of the host user is preferred (because of the volume sharing the files)
+- **LOCAL_USER**: user in the container system. The same id of the host user is preferred (because of the volume sharing the files)
 ## PHP variables
 - **GOOGLE_CLIENT_ID**: client for the DEHIA application in the Google API Console.
 - **GOOGLE_CLIENT_SECRET**; secret for the DEHIA application in the GOOGLE API Console.
