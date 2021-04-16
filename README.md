@@ -25,7 +25,7 @@ You can install the service either in containerized version using Docker Compose
  ```
  docker-compose up auth.mysql
  ```
- 3. In other terminal, start the rest of the containers.
+ 3. In another terminal, start the rest of the containers.
  ```
  docker-compose up
  ```
