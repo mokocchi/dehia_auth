@@ -16,18 +16,27 @@ services:
 
   auth.php:
     container_name: auth.php
+    #image: mokocchi/dehia-auth:latest
     build:
       context: .
       dockerfile: docker/php/Dockerfile
     restart: on-failure
     environment: 
-      WAIT_HOSTS: auth.mysql:3306
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      DATABASE_HOST: ${DATABASE_HOST}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      SITE_URL: ${SITE_URL}
+      JWT_KEY: ${JWT_KEY}
+      WAIT_HOSTS: ${DATABASE_HOST}:3306
       WAIT_SLEEP_INTERVAL: 10
       WAIT_BEFORE_HOSTS: 10
       WAIT_TIMEOUT: 350
     user: ${LOCAL_USER}
     depends_on: 
-      - auth.mysql
+      - ${DATABASE_HOST}
     expose: 
       - 9000
     networks: 

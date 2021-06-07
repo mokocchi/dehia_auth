@@ -11,7 +11,7 @@
         "jms/serializer-bundle": "^3.5",
         "lexik/jwt-authentication-bundle": "^2.6",
         "nelmio/api-doc-bundle": "^3.6",
-        "phpseclib/phpseclib": "2.0.31",
+        "phpseclib/phpseclib": "^2.0.31",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/asset": "4.4.*",
         "symfony/console": "4.4.*",
