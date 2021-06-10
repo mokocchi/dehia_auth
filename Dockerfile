@@ -11,20 +11,8 @@ RUN apk add --no-cache \
 
 RUN docker-php-ext-install pdo_mysql
 
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php composer-setup.php --filename=composer \
-    && php -r "unlink('composer-setup.php');" \
-    && mv composer /usr/local/bin/composer
-
-
-COPY --chown=1000:1000 ./app /usr/src/app
-
-WORKDIR /usr/src/app
-
-RUN mkdir /.composer && chown 1000 /.composer && chgrp 1000 /.composer
-
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /tmp/wait
-RUN chmod +x /tmp/wait &&\
+RUN chmod u+x /tmp/wait &&\
     chown 1000 /tmp/wait &&\
     chgrp 1000 /tmp/wait
 
@@ -35,9 +23,16 @@ RUN curl -L https://github.com/a8m/envsubst/releases/download/v1.1.0/envsubst-`u
     chgrp 1000 /tmp/envsubst &&\
     mv /tmp/envsubst /usr/local/bin
 
+RUN touch .env.local &&\
+    chmod u+rw .env.local &&\
+    chown 1000 .env.local &&\
+    chgrp 1000 .env.local
+
 USER 1000:1000
 
-RUN composer install
+COPY --chown=1000:1000 ./app /usr/src/app
+
+WORKDIR /usr/src/app
 
 RUN PATH=$PATH:/usr/src/app/vendor/bin:bin
 

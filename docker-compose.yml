@@ -16,10 +16,10 @@ services:
 
   auth.php:
     container_name: auth.php
-    #image: mokocchi/dehia-auth:latest
-    build:
-      context: .
-      dockerfile: docker/php/Dockerfile
+    image: mokocchi/dehia-auth:latest
+    #build:
+    #  context: .
+    #  dockerfile: Dockerfile
     restart: on-failure
     environment: 
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -32,7 +32,7 @@ services:
       JWT_KEY: ${JWT_KEY}
       WAIT_HOSTS: ${DATABASE_HOST}:3306
       WAIT_SLEEP_INTERVAL: 10
-      WAIT_BEFORE_HOSTS: 10
+      WAIT_BEFORE: 10
       WAIT_TIMEOUT: 350
     user: ${LOCAL_USER}
     depends_on: 
@@ -50,6 +50,9 @@ services:
     restart: on-failure
     depends_on:
       - auth.php
+    volumes:
+      - './app/public/:/usr/src/app'
+      - './docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro'
     networks:
       backend:
       dehia:
