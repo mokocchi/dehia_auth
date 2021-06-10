@@ -59,16 +59,6 @@ services:
         aliases:
           - auth.nginx
       
-
-  auth.adminer:
-    container_name: auth.adminer
-    depends_on: 
-      - auth.mysql
-    image: adminer:4.8.0
-    restart: on-failure
-    networks: 
-      - backend
-
 networks:
   dehia:
     external: true
