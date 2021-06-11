@@ -19,8 +19,7 @@ WORKDIR /var/www/app
 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /tmp/wait
 RUN chmod u+x /tmp/wait &&\
-    chown 1000 /tmp/wait &&\
-    chgrp 1000 /tmp/wait
+    chown 1000:1000 /tmp/wait
 
 RUN curl -L https://github.com/a8m/envsubst/releases/download/v1.1.0/envsubst-`uname -s`-`uname -m` -o /tmp/envsubst && \
     chmod u+x /tmp/envsubst && \
@@ -28,8 +27,7 @@ RUN curl -L https://github.com/a8m/envsubst/releases/download/v1.1.0/envsubst-`u
 
 RUN touch .env.local &&\
     chmod u+rw .env.local &&\
-    chown www-data .env.local &&\
-    chgrp www-data .env.local
+    chown www-data:www-data .env.local
 
 RUN mkdir -p /run/nginx
 
