@@ -1,6 +1,6 @@
 FROM php:7.4-fpm-alpine
 
-RUN apk update && apk add libzip-dev envsubst
+RUN apk update && apk add libzip-dev gettext
 
 RUN docker-php-ext-install zip
 
